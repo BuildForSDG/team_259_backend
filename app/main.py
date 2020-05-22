@@ -4,12 +4,12 @@ from flask import Flask, Blueprint
 from flask_cors import CORS
 
 from configurations import *
-from resources import mail, blueprint, jwt 
+from resources import blueprint, jwt , mail 
 from models import db, ma
 
 app = Flask(__name__)
 
-app.config.from_object(Production)
+app.config.from_object(Development)
 
 CORS(app)
 

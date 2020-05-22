@@ -6,3 +6,5 @@
 /app/configurations/__pycache__
 /app/user_functions/__pycache__
 config.cfg
+config
+/tmp

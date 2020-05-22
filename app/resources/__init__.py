@@ -4,6 +4,12 @@ from flask_jwt_extended import JWTManager
 
 from blacklist import BLACKLIST
 
+##################################################
+# Remove these two lines after testing if app runs
+##################################################
+from flask_mail import Mail
+mail = Mail()
+
 
 jwt = JWTManager()
 
@@ -17,7 +23,7 @@ authorizations = {
 }
 
 blueprint = Blueprint('api', __name__, url_prefix='/api')
-api = Api(blueprint, doc='/documentation', title='Lockdown manager API', version='1.0', description='An API to manage lockdown activities', authorizations=authorizations, security='apikey')
+api = Api(blueprint, doc='/documentation', title='User management API', version='0.1', description='An API to manage user authentication/authorization', authorizations=authorizations, security='apikey')
 
 
 
