@@ -25,9 +25,6 @@ authorizations = {
 blueprint = Blueprint('api', __name__, url_prefix='/api')
 api = Api(blueprint, doc='/documentation', title='User management API', version='0.1', description='An API to manage user authentication/authorization', authorizations=authorizations, security='apikey')
 
-
-
-
 @jwt.user_claims_loader
 # Remember identity is what we define when creating the access token
 def add_claims_to_jwt(identity):
