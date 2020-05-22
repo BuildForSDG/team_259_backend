@@ -8,21 +8,21 @@ class Config(object):
     ENVIRONMENT = 'Development'
     JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY')
     PROPAGATE_EXCEPTIONS = True
-    SQLALCHEMY_ENGINE_OPTIONS = os.getenv('SQLALCHEMY_ENGINE_OPTIONS')
+    SQLALCHEMY_ENGINE_OPTIONS = {'pool_recycle': 280, 'pool_timeout': 100, 'pool_pre_ping': True}
     SQLALCHEMY_DATABASE_URI = os.getenv('SQLALCHEMY_DATABASE_URI')
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SECRET_KEY = os.getenv('SECRET_KEY')
+    SQLALCHEMY_TRACK_MODIFICATIONS = bool(os.getenv('SQLALCHEMY_TRACK_MODIFICATIONS'))
+    SECRET_KEY = os.getenv('SECRET_KEY ')
     JWT_BLACKLIST_ENABLED = True  # enable blacklist feature
-    JWT_BLACKLIST_TOKEN_CHECKS = os.getenv('JWT_BLACKLIST_TOKEN_CHECKS')
+    JWT_BLACKLIST_TOKEN_CHECKS = ["access", "refresh"]
     SECRET_KEY = os.getenv('SECRET_KEY')
-    MAIL_SERVER = os.getenv('MAIL_SERVER'),
-    MAIL_PORT = os.getenv('JWT_SECRET_KEY'),
-    MAIL_USE_TLS = os.getenv('MAIL_PORT'),
-    MAIL_USE_SSL = os.getenv('MAIL_USE_SSL'),
-    MAIL_USERNAME = os.getenv('MAIL_USERNAME'),
+    MAIL_SERVER = os.getenv('MAIL_SERVER')
+    MAIL_PORT = int(os.getenv('MAIL_PORT'))
+    MAIL_USE_TLS = bool(os.getenv('MAIL_USE_TLS'))
+    MAIL_USE_SSL = bool(os.getenv('MAIL_USE_SSL'))
+    MAIL_USERNAME = os.getenv('MAIL_USERNAME')
     MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
-    MAIL_ASCII_ATTACHMENTS = os.getenv('MAIL_ASCII_ATTACHMENTS')
-
+    MAIL_ASCII_ATTACHMENTS = bool(os.getenv('MAIL_ASCII_ATTACHMENTS'))
+    
 class Development(Config):
     """Configurations for Development."""
     DEBUG = True
@@ -35,7 +35,7 @@ class Testing (Config):
     SQLALCHEMY_ECHO = False
     ENVIRONMENT = 'Development'
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = os.getenv('SQLALCHEMY_DATABASE_URI')
+    SQLALCHEMY_DATABASE_URI = ''
 
 class Production(Config):
     """Configurations for Production."""
