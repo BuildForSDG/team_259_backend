@@ -11,7 +11,7 @@ class Config(object):
     SQLALCHEMY_ENGINE_OPTIONS = {'pool_recycle': 280, 'pool_timeout': 100, 'pool_pre_ping': True}
     SQLALCHEMY_DATABASE_URI = os.getenv('SQLALCHEMY_DATABASE_URI')
     SQLALCHEMY_TRACK_MODIFICATIONS = bool(os.getenv('SQLALCHEMY_TRACK_MODIFICATIONS'))
-    SECRET_KEY = os.getenv('SECRET_KEY ')
+    SECRET_KEY = os.getenv('SECRET_KEY')
     JWT_BLACKLIST_ENABLED = True  # enable blacklist feature
     JWT_BLACKLIST_TOKEN_CHECKS = ["access", "refresh"]
     SECRET_KEY = os.getenv('SECRET_KEY')
