@@ -5,12 +5,10 @@ from marshmallow import Schema, fields
 from . import db, ma
 from user_model import User
 
-class Session(db.Model):
-    __tablename__='sessions'
+class EmailConfirmation(db.Model):
+    __tablename__='email_confirmations'
     id = db.Column(db.Integer, primary_key=True)
-    user_ip_address = db.Column(db.String, nullable=False)
-    device_operating_system  =  db.Column(db.String(15), nullable=False) 
-    user_agent = db.Column(db.String, nullable=False) 
+    email_is_confirmed = db.Column(db.Boolean, default=False, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     user = db.relationship('User', backref=db.backref("sessions", single_parent=True, lazy=True))
     token = db.Column(db.String, unique=True, nullable=False)
@@ -28,6 +26,14 @@ class Session(db.Model):
     @classmethod
     def fetch_by_id(cls, id):
         return cls.query.get(id)
+
+    @classmethod  
+    def update(cls, id, email_is_confirmed=None):
+        record = cls.fetch_by_id(id)
+        if email_is_confirmed:
+            record.email_is_confirmed = email_is_confirmed
+        db.session.commit()
+        return True
 
     @classmethod
     def delete_by_id(cls, id):
