@@ -10,7 +10,7 @@ from models import db, ma
 
 app = Flask(__name__)
 
-app.config.from_object(Development)
+app.config.from_object(Production)
 
 CORS(app)
 # Talisman(app)
