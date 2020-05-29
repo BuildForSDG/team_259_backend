@@ -3,17 +3,16 @@ from datetime import datetime
 from marshmallow import Schema, fields
 
 from . import db, ma
-from user_model import User
+from .user_model import User
 
 class Session(db.Model):
     __tablename__='sessions'
     id = db.Column(db.Integer, primary_key=True)
     user_ip_address = db.Column(db.String, nullable=False)
+    device_operating_system  =  db.Column(db.String(25), nullable=False) 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     user = db.relationship('User', backref=db.backref("sessions", single_parent=True, lazy=True))
-    token = db.Column(db.String, nullable=False)
-    # session_id VARCHAR(255)
-    # session_status VARCHAR(45)
+    token = db.Column(db.String, unique=True, nullable=False)
     created = db.Column(db.DateTime, default=datetime.utcnow(), nullable=False)
 
     def insert_record(self):
@@ -36,6 +35,6 @@ class Session(db.Model):
         db.session.commit()
         return True
 
-class SessionSchema(ma.ModelSchema):
+class SessionSchema(ma.Schema):
     class Meta:
-        model = Session
+        fields = ('id','user_ip_address', 'device_operating_system', 'user_id', 'created')

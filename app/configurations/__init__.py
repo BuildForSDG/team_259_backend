@@ -14,7 +14,6 @@ class Config(object):
     SECRET_KEY = os.getenv('SECRET_KEY')
     JWT_BLACKLIST_ENABLED = True  # enable blacklist feature
     JWT_BLACKLIST_TOKEN_CHECKS = ["access", "refresh"]
-    SECRET_KEY = os.getenv('SECRET_KEY')
     MAIL_SERVER = os.getenv('MAIL_SERVER')
     MAIL_PORT = int(os.getenv('MAIL_PORT'))
     MAIL_USE_TLS = bool(os.getenv('MAIL_USE_TLS'))
@@ -32,7 +31,6 @@ class Development(Config):
 class Testing (Config):
     """Configurations for Testing, with a separate test database."""
     DEBUG = False
-    SQLALCHEMY_ECHO = False
     ENVIRONMENT = 'Development'
     TESTING = True
     SQLALCHEMY_DATABASE_URI = ''
@@ -40,6 +38,5 @@ class Testing (Config):
 class Production(Config):
     """Configurations for Production."""
     DEBUG = False
-    SQLALCHEMY_ECHO = False
     ENVIRONMENT = 'Production'
     TESTING = False

@@ -3,8 +3,8 @@ from datetime import datetime
 from marshmallow import Schema, fields
 
 from . import db, ma
-from user_model import User
-from role_model import Role
+from .user_model import User
+from .role_model import Role
 
 class UserRole(db.Model):
     __tablename__ = 'user_roles'
@@ -32,6 +32,10 @@ class UserRole(db.Model):
     def fetch_by_id(cls, id):
         return cls.query.get(id)
 
+    @classmethod
+    def fetch_by_user_id(cls, user_id):
+        return cls.query.filter_by(user_id=user_id).first()
+
     @classmethod  
     def update(cls, id, user_id=None, role_id=None):
         record = cls.fetch_by_id(id)
@@ -49,6 +53,6 @@ class UserRole(db.Model):
         db.session.commit()
         return True
 
-class UserRoleSchema(ma.ModelSchema):
+class UserRoleSchema(ma.Schema):
     class Meta:
-        model = UserRole
+        fields =('id','user_id', 'role_id', 'created', 'updated')

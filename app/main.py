@@ -2,6 +2,7 @@ import os
 
 from flask import Flask, Blueprint
 from flask_cors import CORS
+from flask_talisman import Talisman
 
 from configurations import *
 from resources import blueprint, jwt , mail 
@@ -9,9 +10,10 @@ from models import db, ma
 
 app = Flask(__name__)
 
-app.config.from_object(Development)
+app.config.from_object(Production)
 
 CORS(app)
+# Talisman(app)
 
 app.register_blueprint(blueprint)
 

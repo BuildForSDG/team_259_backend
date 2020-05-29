@@ -1,4 +1,4 @@
-/__pycache__s
+/__pycache__
 /venv
 /app/resources/__pycache__
 /app/models/__pycache__
@@ -9,3 +9,7 @@ config.cfg
 config
 /tmp
 /.vscode
+/test/resources/__pycache__
+/test/__pycache__
+/test/user_functions/__pycache__
+/.pytest_cache
