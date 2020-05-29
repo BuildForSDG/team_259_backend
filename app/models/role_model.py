@@ -24,6 +24,10 @@ class Role(db.Model):
     def fetch_by_id(cls, id):
         return cls.query.get(id)
 
+    @classmethod
+    def fetch_by_role(cls, role):
+        return cls.query.filter_by(role).first()
+
     @classmethod  
     def update(cls, id, role=None):
         record = cls.fetch_by_id(id)
@@ -39,6 +43,7 @@ class Role(db.Model):
         db.session.commit()
         return True
 
-class RoleSchema(ma.ModelSchema):
+class RoleSchema(ma.Schema):
     class Meta:
-        model = Role
+        fields = ('id','role','created','updated')
+

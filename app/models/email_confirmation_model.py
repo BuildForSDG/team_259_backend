@@ -3,14 +3,16 @@ from datetime import datetime
 from marshmallow import Schema, fields
 
 from . import db, ma
+from .user_model import User
 
-class Category(db.Model):
-    __tablename__='categories'
+class EmailConfirmation(db.Model):
+    __tablename__='email_confirmations'
     id = db.Column(db.Integer, primary_key=True)
-    category = db.Column(db.String(20), nullable=False)
-    description = db.Column(db.String, nullable=False)
+    email_is_confirmed = db.Column(db.Boolean, default=False, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user = db.relationship('User', backref=db.backref("sessions", single_parent=True, lazy=True))
+    token = db.Column(db.String, unique=True, nullable=False)
     created = db.Column(db.DateTime, default=datetime.utcnow(), nullable=False)
-    updated = db.Column(db.DateTime, onupdate=datetime.utcnow(), nullable=True)
 
     def insert_record(self):
         db.session.add(self)
@@ -26,12 +28,10 @@ class Category(db.Model):
         return cls.query.get(id)
 
     @classmethod  
-    def update(cls, id, category=None, description=None):
+    def update(cls, id, email_is_confirmed=None):
         record = cls.fetch_by_id(id)
-        if category:
-            record.category = category
-        if description:
-            record.description = description
+        if email_is_confirmed:
+            record.email_is_confirmed = email_is_confirmed
         db.session.commit()
         return True
 
@@ -42,7 +42,6 @@ class Category(db.Model):
         db.session.commit()
         return True
 
-
-class CategorySchema(ma.ModelSchema):
+class EmailConfirmationSchema(ma.Schema):
     class Meta:
-        model = Category
+        fields = ('id', 'email_is_confirmed', 'user_id', 'token', 'created', 'updated')

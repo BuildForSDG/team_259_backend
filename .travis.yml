@@ -1,0 +1,21 @@
+language: python
+
+python:
+  - "3.7"
+
+services:
+  - postgresql
+
+install:
+  - pip install -r requirements.txt
+
+before_script:
+  - python app/manage.py db init
+  - python app/manage.py migrate
+  - python app/manage.py db upgrade
+
+script:
+  - pytest tests
+
+after_success:
+  - codecov
