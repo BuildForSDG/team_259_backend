@@ -8,6 +8,7 @@ services:
 
 install:
   - pip install -r requirements.txt
+  - pip install pytest-cov codecov
 
 before_script:
   - python app/manage.py db init
@@ -15,7 +16,7 @@ before_script:
   - python app/manage.py db upgrade
 
 script:
-  - pytest tests
+  - pytest --cov=app tests
 
 after_success:
   - codecov
