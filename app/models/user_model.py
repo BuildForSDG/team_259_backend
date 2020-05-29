@@ -10,10 +10,12 @@ class User(db.Model):
     first_name = db.Column(db.String(20), nullable=False)
     last_name = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String(80), unique=True, nullable=False)
-    phone = db.Column(db.String(20), nullable=False)
+    phone = db.Column(db.String(20), unique=True, nullable=False)
     password = db.Column(db.String, nullable=False)
-
-    is_suspended = db.Column(db.Boolean, default=False, nullable=False)
+    # 0 is False
+    # 1 is True
+    # 2 is restored or False
+    is_suspended = db.Column(db.Integer, default=0, nullable=False)
 
     created = db.Column(db.DateTime, default=datetime.utcnow(), nullable=False)
     updated = db.Column(db.DateTime, onupdate=datetime.utcnow(), nullable=True)
@@ -30,6 +32,14 @@ class User(db.Model):
     @classmethod
     def fetch_by_id(cls, id):
         return cls.query.get(id)
+
+    @classmethod
+    def fetch_by_email(cls, email):
+        return cls.query.filter_by(email=email).first()
+    
+    @classmethod
+    def fetch_by_phone(cls, phone):
+        return cls.query.filter_by(phone=phone).first()
 
     @classmethod  
     def update(cls, id, first_name=None, last_name=None, email=None, phone=None):
@@ -76,6 +86,6 @@ class User(db.Model):
         db.session.commit()
         return True
 
-class UserPrivilidgesSchema(ma.ModelSchema):
+class UserSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'first_name', 'last_name', 'email', 'phone', 'created', 'updated')
+        fields = ('id', 'first_name', 'last_name', 'email', 'phone', 'is_suspended', 'created', 'updated')

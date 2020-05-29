@@ -3,7 +3,7 @@ from datetime import datetime
 from marshmallow import Schema, fields
 
 from . import db, ma
-from user_model import User
+from .user_model import User
 
 class EmailConfirmation(db.Model):
     __tablename__='email_confirmations'
@@ -42,6 +42,6 @@ class EmailConfirmation(db.Model):
         db.session.commit()
         return True
 
-class SessionSchema(ma.ModelSchema):
+class EmailConfirmationSchema(ma.Schema):
     class Meta:
-        model = Session
+        fields = ('id', 'email_is_confirmed', 'user_id', 'token', 'created', 'updated')
