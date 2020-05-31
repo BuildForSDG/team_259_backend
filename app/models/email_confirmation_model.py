@@ -37,7 +37,7 @@ class EmailConfirmation(db.Model):
 
     @classmethod
     def delete_by_id(cls, id):
-        record = cls.fetch_by_id(id)
+        record = cls.query.filter_by(id=id)
         record.delete()
         db.session.commit()
         return True
