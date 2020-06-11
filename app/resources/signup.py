@@ -34,18 +34,29 @@ class RegisterUser(Resource):
     @api.doc('register_user')
     def post(self):
         '''Register User'''
-        # Get User-agent and ip address, then compute operating system and location
-        device_operating_system = generate_device_data()
+        # Get User-agent and ip address 
+        my_ip = request.environ.get('HTTP_X_FORWARDED_FOR')
+        if my_ip is None:
+            ip = request.environ['REMOTE_ADDR']
+        else:
+            ip = request.environ['HTTP_X_FORWARDED_FOR']
+
+        if ip is None or str(ip) == '127.0.0.1' :
+            abort(400, 'This request has been rejected. Please use a recognised device')
+
+        user_agent = str(request.user_agent)
+
+        # Compute operating system and location
+        device_operating_system = generate_device_data(user_agent)
         if 'error' in device_operating_system.keys():
             abort(400, device_operating_system['error'])
         device_os = device_operating_system['device_os']
 
-        device_location_data = generate_location_data()
+        device_location_data = generate_location_data(str(ip))
         if 'error' in device_location_data.keys():
             abort(400, device_location_data['error'])
         ip = device_location_data['ip']
         location = device_location_data['location']
-
 
         data = api.payload
         if not data:
