@@ -9,6 +9,7 @@ class Session(db.Model):
     __tablename__='sessions'
     id = db.Column(db.Integer, primary_key=True)
     user_ip_address = db.Column(db.String, nullable=False)
+    location = db.Column(db.String, nullable=False)
     device_operating_system  =  db.Column(db.String(25), nullable=False) 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     user = db.relationship('User', backref=db.backref("sessions", single_parent=True, lazy=True))

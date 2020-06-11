@@ -13,3 +13,5 @@ config
 /test/__pycache__
 /test/user_functions/__pycache__
 /.pytest_cache
+env
+user_management.env

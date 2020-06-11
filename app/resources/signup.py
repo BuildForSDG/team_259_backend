@@ -12,7 +12,7 @@ from models.user_role_model import UserRole
 from models.sessions_model import Session
 
 from user_functions.user_role_manager import UserPrivilege
-from user_functions.platform_fetcher import compute_platform_version
+from user_functions.compute_session_data import generate_device_data, generate_location_data
 
 api = Namespace('signup', description='Register User')
 
@@ -34,17 +34,18 @@ class RegisterUser(Resource):
     @api.doc('register_user')
     def post(self):
         '''Register User'''
-        # Get User-agent and ip address, then compute operating system
-        my_ip = request.environ.get('HTTP_X_FORWARDED_FOR')
-        if my_ip is None:
-            ip = my_ip
-        else:
-            ip = request.environ['HTTP_X_FORWARDED_FOR']
-        user_agent = str(request.user_agent)
-        user_agent_platform = request.user_agent.platform
-        device_os = compute_platform_version(user_agent, user_agent_platform)
-        if device_os is None or ip is None:
-            abort(400, 'This request has been rejected. Please use a recognised device')
+        # Get User-agent and ip address, then compute operating system and location
+        device_operating_system = generate_device_data()
+        if 'error' in device_operating_system.keys():
+            abort(400, device_operating_system['error'])
+        device_os = device_operating_system['device_os']
+
+        device_location_data = generate_location_data()
+        if 'error' in device_location_data.keys():
+            abort(400, device_location_data['error'])
+        ip = device_location_data['ip']
+        location = device_location_data['location']
+
 
         data = api.payload
         if not data:
@@ -91,7 +92,7 @@ class RegisterUser(Resource):
         access_token = create_access_token(identity=my_identity, expires_delta=expiry_time)
         refresh_token = create_refresh_token(my_identity)    
         # Save session info to db
-        new_session_record = Session(user_ip_address=ip, device_operating_system=device_os, user_id=user_id, token=access_token)    
+        new_session_record = Session(user_ip_address=ip, location=location, device_operating_system=device_os, user_id=user_id, token=access_token)    
         new_session_record.insert_record()
         return {'message': 'Success', 'access token': access_token, "refresh_token": refresh_token, 'user': user}, 201
 
