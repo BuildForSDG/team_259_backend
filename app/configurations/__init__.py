@@ -9,7 +9,7 @@ class Config(object):
     JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY')
     PROPAGATE_EXCEPTIONS = True
     SQLALCHEMY_ENGINE_OPTIONS = {'pool_recycle': 280, 'pool_timeout': 100, 'pool_pre_ping': True}
-    SQLALCHEMY_DATABASE_URI = os.getenv('SQLALCHEMY_DATABASE_URI')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI')
     SQLALCHEMY_TRACK_MODIFICATIONS = bool(os.getenv('SQLALCHEMY_TRACK_MODIFICATIONS'))
     SECRET_KEY = os.getenv('SECRET_KEY')
     JWT_BLACKLIST_ENABLED = True  # enable blacklist feature

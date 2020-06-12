@@ -10,20 +10,16 @@ def compute_platform_version(user_agent, platform):
                 name = name_lst[0]
                 print('Platform: ', name)
                 return name
-            print('Platform: ', name)
             return name
         name = user_agent[user_agent.find('Windows'): user_agent.find(';') or user_agent.find(')')]
         if ';' in name:
             name_lst = name.split(';')
             name = name_lst[0]
-            print('Platform: ', name)
             return name
         if ')' in name:
             name_lst = name.split(')')
             name = name_lst[0]
-            print('Platform: ', name)
             return name
-        print('Platform: ', name)
         return name
 
     if platform == 'linux':
@@ -33,14 +29,11 @@ def compute_platform_version(user_agent, platform):
             if ';' in name:
                 name_lst = name.split(';')
                 name = name_lst[0]
-                print('Platform: ', name)
                 return name
             if ')' in name:
                 name_lst = name.split(')')
                 name = name_lst[0]
-                print('Platform: ', name)
                 return name
-            print('Platform: ', name)
             return name
         except AttributeError:
             name_with_punctuation = re.search(r'Linux .+(?=\))', user_agent)
@@ -48,21 +41,17 @@ def compute_platform_version(user_agent, platform):
             if ';' in name:
                 name_lst = name.split(';')
                 name = name_lst[0]
-                print('Platform: ', name)
                 return name
             if ')' in name:
                 name_lst = name.split(')')
                 name = name_lst[0]
-                print('Platform: ', name)
                 return name
-            print('Platform: ', name)
             return name
 
     if platform == 'macos':
         try:
             name_with_punctuation = re.search(r'Mac OS .+(?=;)', user_agent)
             name = name_with_punctuation.group() 
-            print('Platform: ', name)
             return name
         except AttributeError:
             name_with_punctuation = re.search(r'Mac OS .+(?=\))', user_agent)
@@ -70,9 +59,7 @@ def compute_platform_version(user_agent, platform):
             if ')' in name:
                 name_lst = name.split(')')
                 name = name_lst[0]
-                print('Platform: ', name)
                 return name
-            print('Platform: ', name)
             return name
 
     if platform ==  'android':
@@ -81,23 +68,18 @@ def compute_platform_version(user_agent, platform):
         if ';' in name:
             name_lst = name.split(';')
             name = name_lst[0]
-            print('Platform: ', name)
             return name
-        print('Platform: ', name)
         return name
 
     if platform == 'iphone':
         name_with_punctuation = re.search(r'iPhone .+(?= like Mac)', user_agent)
         name = name_with_punctuation.group()
-        print('Platform: ', name)
         return name
 
     if platform == 'ipad':
         name_with_punctuation = re.search(r'OS .+(?= like Mac)', user_agent)
         name = name_with_punctuation.group()
-        print('Platform: ', name)
         return name
 
     if platform == '':
-        print('Platform: ', None)
         return None
