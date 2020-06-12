@@ -1,10 +1,11 @@
 from flask import request
 
-from user_functions.platform_fetcher import compute_platform_version
-from user_functions.location_fetcher import get_location
+from .platform_fetcher import compute_platform_version
+from .location_fetcher import get_location
 
 
-def generate_device_data(user_agent):
+def generate_device_data():
+    user_agent = str(request.user_agent)
     user_agent_platform = request.user_agent.platform
     device_os = compute_platform_version(user_agent, user_agent_platform)
     if device_os is None:

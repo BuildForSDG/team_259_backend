@@ -42,10 +42,8 @@ class Login(Resource):
         if ip is None or str(ip) == '127.0.0.1':
             abort(400, 'This request has been rejected. Please use a recognised device')
 
-        user_agent = str(request.user_agent)
-
         # Compute operating system and location
-        device_operating_system = generate_device_data(user_agent)
+        device_operating_system = generate_device_data()
         if 'error' in device_operating_system.keys():
             abort(400, device_operating_system['error'])
         device_os = device_operating_system['device_os']
