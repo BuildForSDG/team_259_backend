@@ -1,7 +1,7 @@
 import base64
 import smtplib
 from datetime import timedelta, datetime
-from email.mime.text import MIMEText
+# from email.mime.text import MIMEText
 
 import uuid
 from flask_restx import Namespace, Resource, fields

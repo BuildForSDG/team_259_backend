@@ -30,6 +30,10 @@ class Session(db.Model):
         return cls.query.get(id)
 
     @classmethod
+    def fetch_by_user_id(cls, user_id):
+        return cls.query.filter_by(user_id=user_id)
+
+    @classmethod
     def delete_by_id(cls, id):
         record = cls.query.filter_by(id=id)
         record.delete()
@@ -38,4 +42,4 @@ class Session(db.Model):
 
 class SessionSchema(ma.Schema):
     class Meta:
-        fields = ('id','user_ip_address', 'device_operating_system', 'user_id', 'created')
+        fields = ('id','user_ip_address', 'location', 'device_operating_system', 'user_id', 'created')

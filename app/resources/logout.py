@@ -1,6 +1,5 @@
 from flask_restx import Namespace, Resource
 from flask_jwt_extended import jwt_required, get_raw_jwt, get_jwt_identity
-from marshmallow import ValidationError
 
 from models.user_model import User, UserSchema
 from blacklist import BLACKLIST
