@@ -4,7 +4,6 @@ from flask import request, abort
 from flask_restx import Namespace, Resource, fields
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token, create_refresh_token, jwt_refresh_token_required
-from marshmallow import ValidationError
 
 from models.user_model import User, UserSchema
 from models.user_role_model import UserRole, UserRoleSchema

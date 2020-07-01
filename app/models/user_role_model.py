@@ -11,10 +11,10 @@ class UserRole(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    user = db.relationship('User', backref=db.backref("user_roles", single_parent=True, lazy=True))
+    user = db.relationship('User', backref=db.backref("user_roles", single_parent=True, lazy=True)) # , cascade='all, delete, delete-orphan'
 
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'), nullable=False)
-    role = db.relationship('Role', backref=db.backref("user_roles", single_parent=True, lazy=True))
+    role = db.relationship('Role', backref=db.backref("user_roles", single_parent=True, lazy=True)) # passive_deletes = "all"
 
     created = db.Column(db.DateTime, default=datetime.utcnow(), nullable=False)
     updated = db.Column(db.DateTime, onupdate=datetime.utcnow(), nullable=True)

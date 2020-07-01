@@ -10,6 +10,7 @@ from .roles import api as roles
 from .manage_user import api as manage_user
 from .update import api as update_user
 from .password_manager import api as password_manager, mail
+from .sessions import api as sessions
 
 
 jwt = JWTManager()
@@ -34,6 +35,8 @@ api.add_namespace(roles)
 api.add_namespace(manage_user)
 api.add_namespace(update_user)
 api.add_namespace(password_manager)
+api.add_namespace(sessions)
+
 
 @jwt.user_claims_loader
 # Remember identity is what we define when creating the access token

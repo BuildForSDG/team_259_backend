@@ -3,9 +3,6 @@ from datetime import timedelta
 from flask_restx import Namespace, Resource, fields
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt_claims
 from flask import abort, jsonify
-from werkzeug.exceptions import BadRequest
-from marshmallow import ValidationError
-
 
 from models.user_model import User, UserSchema
 
@@ -22,7 +19,6 @@ class UserList(Resource):
     def get(self):
         '''List all Users'''
         claims = get_jwt_claims()
-        print(claims)
         authorised_user = get_jwt_identity()
         if authorised_user['privileges'] == 'Customer care' or claims['is_admin'] :
             my_users = User.fetch_all()
@@ -95,9 +91,11 @@ class DeleteUser(Resource):
 
         claims = get_jwt_claims()
         authorised_user = get_jwt_identity()
-        if not claims['is_admin'] or id != authorised_user['id']: # 403
-            abort(400, 'You do not have the required permissions to delete this user!')
+        if claims['is_admin'] or id == authorised_user['id']:
+            User.delete_by_id(id)
+            return {'message': 'User deleted successfuly'}, 200
+            
+        abort(400, 'You do not have the required permissions to delete this user!')
 
-        User.delete_by_id(id)
+        
 
-        return {'message': 'User deleted successfuly'}, 200
